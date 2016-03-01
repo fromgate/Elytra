@@ -77,6 +77,8 @@ public abstract class SimpleConfig {
                     field.set(this, cfg.getLong(path, field.getLong(this)));
                 else if (field.getType() == double.class || field.getType() == Double.class)
                     field.set(this, cfg.getDouble(path, field.getDouble(this)));
+                else if (field.getType() == float.class || field.getType() == Float.class)
+                    field.set(this, (float) cfg.getDouble(path, field.getDouble(this)));
                 else if (field.getType() == String.class)
                     field.set(this, cfg.getString(path, (String) field.get(this)));
                 else if (field.getType() == List.class) {
