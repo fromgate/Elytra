@@ -1,14 +1,12 @@
 package me.fromgate.elytra;
 
-import org.bukkit.Bukkit;
-import org.bukkit.Material;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
@@ -45,6 +43,7 @@ public class Elytra extends JavaPlugin implements Listener{
         player.setVelocity(vector.multiply(cfg.speedUpMult));
         playParticles(player);
         playSound(player);
+        processGForce(player);
     }
 
 
@@ -58,14 +57,14 @@ public class Elytra extends JavaPlugin implements Listener{
         if (!cfg.soundEnable) return;
         player.getWorld().playSound(player.getLocation(),sound,cfg.soundVolume,cfg.soundPitch);
         if (cfg.soundRepeatCount<=0) return;
-        for (int i=1;i<=cfg.soundRepeatCount;i++)
+        for (int i=0;i<cfg.soundRepeatCount;i++)
             Bukkit.getScheduler().runTaskLater(this, new Runnable() {
                 @SuppressWarnings("deprecation")
                 public void run() {
                     if (player.isDead()||!player.isOnline()||player.isFlying()||player.isOnGround()) return;
                     player.getWorld().playSound(player.getLocation(),sound,cfg.soundVolume,cfg.soundPitch);
                 }
-            },i);
+            },i*cfg.soundDelay);
     }
 
     @SuppressWarnings("deprecation")
@@ -98,4 +97,20 @@ public class Elytra extends JavaPlugin implements Listener{
         return Sound.ENTITY_BAT_TAKEOFF;
     }
 
+    private void processGForce(Player player){
+        if (player.getGameMode()== GameMode.CREATIVE||player.getGameMode()== GameMode.SPECTATOR) return;
+        if (cfg.gforceBreakElytra>0){
+            ItemStack elytra = player.getInventory().getChestplate();
+            int durability = elytra.getDurability()+cfg.gforceBreakElytra;
+            int maxDur =elytra.getType().getMaxDurability()==0? 431 : elytra.getType().getMaxDurability();
+            if (durability>=maxDur) durability = maxDur-1;
+            elytra.setDurability((short) durability);
+            player.getInventory().setChestplate(elytra);
+        }
+        if (cfg.gforceDamagePlayer>0){
+            double health = player.getHealth()-cfg.gforceDamagePlayer;
+            if (health<0) health=0;
+            player.damage(player.getHealth()-health);
+        }
+    }
 }

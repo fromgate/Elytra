@@ -27,6 +27,11 @@ public class ElytraConfig extends SimpleConfig {
     @Path (value = "speed-up.multiplier")
     public double speedUpMult = 1.3;
 
+    @Path (value = "g-force.damage-elytra")
+    public int gforceBreakElytra=10;
+
+    @Path (value = "g-force.damage-player")
+    public double gforceDamagePlayer=2;
 
     @Path(value = "particles.enable")
     public boolean particles = true;
@@ -60,4 +65,9 @@ public class ElytraConfig extends SimpleConfig {
 
     @Path(value = "sound.play-repeat")
     public int soundRepeatCount=3;
+
+    @Path(value = "sound.play-delay-ticks")
+    public int soundDelay=3;
+
+
 }
