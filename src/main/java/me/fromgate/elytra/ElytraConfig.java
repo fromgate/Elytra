@@ -8,12 +8,17 @@ public class ElytraConfig extends SimpleConfig {
         super(plugin);
     }
 
+    @Path (value = "auto-glide.enable")
+    public boolean autoElytra = true;
+
+    @Path (value = "auto-glide.required-air-under-player")
+    public int autoElytraEmpty = 3;
+
     @Path (value = "speed-up.enable")
     public boolean boostEnable = true;
 
     @Path (value = "speed-up.activation.angle-min")
     public int minAngle = 40;
-
 
     @Path (value = "speed-up.activation.angle-max")
     public int maxAngle = 80;
@@ -68,6 +73,4 @@ public class ElytraConfig extends SimpleConfig {
 
     @Path(value = "sound.play-delay-ticks")
     public int soundDelay=3;
-
-
 }
