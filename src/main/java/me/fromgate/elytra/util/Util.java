@@ -1,5 +1,6 @@
-package me.fromgate.elytra;
+package me.fromgate.elytra.util;
 
+import me.fromgate.elytra.Elytra;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -10,33 +11,60 @@ import org.bukkit.inventory.ItemStack;
 public class Util {
 
     private static ElytraConfig cfg;
+    private static Particle particle;
+    private static Sound sound;
+    static long cooldownTime;
 
-    static void init(){
+
+    public static void init(){
         cfg = Elytra.getCfg();
+        particle = Util.parseParticle(cfg.particleType);
+        cfg.particleType = particle.name();
+        sound = Util.parseSound(cfg.soundType);
+        cfg.soundType =sound.name();
+        cooldownTime = Time.parseTime(cfg.cooldownTime);
     }
 
-    static boolean isBoostAngle(double pitch){
-        if (cfg.minAngle>(-1*pitch)) return false;
-        if (cfg.maxAngle<(-1*pitch)) return true;
+    public static boolean isBoostAngle(double pitch){
+        return checkAngle(pitch,cfg.minAngle,cfg.maxAngle);
+    }
+/*
+  pitch < 0 = игрок смотрит вверх.
+
+
+
+ */
+    public static boolean checkAngle(double pitch, int min, int max){
+        pitch = -pitch;
+
+
+        if (min>(pitch)) return false;
+        if (max<(pitch)) return false;
         return true;
     }
 
-    static void playSound(final Player player){
+    public static void playSound(final Player player){
         if (!cfg.soundEnable) return;
-        player.getWorld().playSound(player.getLocation(),Elytra.getPlugin().sound,cfg.soundVolume,cfg.soundPitch);
+        player.getWorld().playSound(player.getLocation(), sound, cfg.soundVolume, cfg.soundPitch);
         if (cfg.soundRepeatCount<=0) return;
         for (int i=0;i<cfg.soundRepeatCount;i++)
             Bukkit.getScheduler().runTaskLater(Elytra.getPlugin(), new Runnable() {
                 @SuppressWarnings("deprecation")
                 public void run() {
                     if (player.isDead()||!player.isOnline()||player.isFlying()||player.isOnGround()) return;
-                    player.getWorld().playSound(player.getLocation(),Elytra.getPlugin().sound,cfg.soundVolume,cfg.soundPitch);
+                    player.getWorld().playSound(player.getLocation(), sound, cfg.soundVolume, cfg.soundPitch);
                 }
             },i*cfg.soundDelay);
     }
 
+    public static void playCooldownSound(Player player){
+        if (!cfg.soundEnable) return;
+        Sound s = parseSound(cfg.cooldownFailSound);
+        player.getWorld().playSound(player.getLocation(), s, cfg.cooldownFailVolume, cfg.cooldownFailPitch);
+    }
+
     @SuppressWarnings("deprecation")
-    static void playParticles(final Player player){
+    public static void playParticles(final Player player){
         if (!cfg.particles) return;
         playParticle (player);
         if (cfg.particlesCount<=0) return;
@@ -50,7 +78,7 @@ public class Util {
     }
 
     static void playParticle (Player player){
-        player.getWorld().spawnParticle(Elytra.getPlugin().particle,player.getLocation(),
+        player.getWorld().spawnParticle(particle,player.getLocation(),
                 cfg.particleAmount,
                 cfg.particleRadius,
                 cfg.particleRadius,
@@ -70,9 +98,9 @@ public class Util {
         return Sound.ENTITY_BAT_TAKEOFF;
     }
 
-    static void processGForce(Player player){
+    public static void processGForce(Player player){
         if (player.getGameMode()== GameMode.CREATIVE||player.getGameMode()== GameMode.SPECTATOR) return;
-        if (cfg.gforceBreakElytra>0){
+        if (cfg.gforceBreakElytra>0&&!player.hasPermission("elytra.damage-elytra.bypass")){
 
             ItemStack elytra = player.getInventory().getChestplate();
 
@@ -82,31 +110,31 @@ public class Util {
             elytra.setDurability((short) durability);
             player.getInventory().setChestplate(elytra);
         }
-        if (cfg.gforceDamagePlayer>0){
+        if (cfg.gforceDamagePlayer>0&&!player.hasPermission("elytra.damage-player.bypass")){
             double health = player.getHealth()-cfg.gforceDamagePlayer;
             if (health<0) health=0;
             player.damage(player.getHealth()-health);
         }
     }
 
-    static boolean isPlayerGliding(Player player){
+    public static boolean isPlayerGliding(Player player){
         return ((CraftPlayer)player).getHandle().cB();
     }
 
-    static void setGlide (Player player){
+    public static void setGlide(Player player){
         EntityPlayer ep = ((CraftPlayer)player).getHandle();
         ep.setFlag(7,true);
     }
 
-    static boolean isElytraWeared(Player player){
+    public static boolean isElytraWeared(Player player){
         if (player.getInventory().getChestplate() ==null) return false;
         if (player.getInventory().getChestplate().getType()!= Material.ELYTRA) return false;
         if (player.getInventory().getChestplate().getDurability()>=431) return false;
         return true;
     }
 
-    static boolean checkEmptyBlocks (Location from, Location to){
-        if ((from.getBlockY()-to.getBlockY())<1) return false;
+    public static boolean checkEmptyBlocks(Location from, Location to){
+        if (from.getBlockY()-to.getBlockY()<1) return false;
         Block bf = from.getBlock();
         Block tf = to.getBlock();
         for (int i = 0; i<=cfg.autoElytraEmpty; i++){
@@ -115,6 +143,13 @@ public class Util {
             tf = tf.getRelative(0,i==0 ? 0 :-1, 0);
             if (tf.getType()!=Material.AIR) return false;
         }
+        return true;
+    }
+
+    public static boolean isSameBlocks(Location loc1, Location loc2){
+        if (loc1.getBlockX()!=loc2.getBlockX()) return false;
+        if (loc1.getBlockZ()!=loc2.getBlockZ()) return false;
+        if (loc1.getBlockY()!=loc2.getBlockY()) return false;
         return true;
     }
 }

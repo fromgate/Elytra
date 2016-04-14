@@ -1,9 +1,11 @@
-package me.fromgate.elytra;
+package me.fromgate.elytra.util;
 
+import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -16,7 +18,7 @@ import java.util.List;
 
 public abstract class SimpleConfig {
 
-    private File configFile;
+    File configFile;
 
     public SimpleConfig(JavaPlugin plugin) {
         this(plugin, "config.yml");
@@ -24,6 +26,11 @@ public abstract class SimpleConfig {
 
     public SimpleConfig(JavaPlugin plugin, String fileName) {
         this(new File(plugin.getDataFolder() + File.separator + fileName));
+        try {
+            plugin.saveResource(fileName,false);
+        } catch (Exception e){
+            plugin.getLogger().info("Resource "+fileName+" was not found. Default value will be used.");
+        }
     }
 
     public SimpleConfig(File file) {
@@ -38,6 +45,10 @@ public abstract class SimpleConfig {
             return false;
         }
         YamlConfiguration cfg = new YamlConfiguration();
+        try {
+            cfg.load(configFile);
+        } catch (Exception ignore) {
+        }
         for (Field field : this.getClass().getDeclaredFields()) {
             String path = getPath(field);
             try {
