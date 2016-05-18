@@ -1,10 +1,10 @@
 package me.fromgate.elytra.util;
 
 import me.fromgate.elytra.Elytra;
-import net.minecraft.server.v1_9_R1.EntityPlayer;
+import net.minecraft.server.v1_9_R2.EntityPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_9_R2.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -118,7 +118,7 @@ public class Util {
     }
 
     public static boolean isPlayerGliding(Player player){
-        return ((CraftPlayer)player).getHandle().cB();
+        return ((CraftPlayer)player).getHandle().cC();
     }
 
     public static void setGlide(Player player){
