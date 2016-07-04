@@ -5,6 +5,7 @@ import net.minecraft.server.v1_10_R1.EntityPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -118,7 +119,7 @@ public class Util {
     }
 
     public static boolean isPlayerGliding(Player player){
-        return ((CraftPlayer)player).getHandle().cG();
+        return ((LivingEntity)player).isGliding();
     }
 
     public static void setGlide(Player player){
