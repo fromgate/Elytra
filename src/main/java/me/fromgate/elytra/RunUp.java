@@ -26,7 +26,7 @@ public class RunUp implements Listener {
         final Player player = event.getPlayer();
         if (!player.hasPermission("elytra.runup")) return;
         if (!Util.isElytraWeared(player)) return;
-        if (Util.isPlayerGliding(player)) return;
+        if (player.isGliding()) return;
         if (player.isFlying()) return;
         if (Util.isSameBlocks(event.getFrom(),event.getTo())) return;
         if (!player.isSprinting()) {
@@ -46,7 +46,7 @@ public class RunUp implements Listener {
         Util.playSound(player);
         Bukkit.getScheduler().runTaskLater(Elytra.getPlugin(),new Runnable(){
             public void run() {
-                Util.setGlide(player);
+                player.setGliding(true);
             }
         },5);
     }

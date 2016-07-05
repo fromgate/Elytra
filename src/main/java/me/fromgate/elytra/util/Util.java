@@ -1,11 +1,8 @@
 package me.fromgate.elytra.util;
 
 import me.fromgate.elytra.Elytra;
-import net.minecraft.server.v1_10_R1.EntityPlayer;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_10_R1.entity.CraftPlayer;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -116,15 +113,6 @@ public class Util {
             if (health<0) health=0;
             player.damage(player.getHealth()-health);
         }
-    }
-
-    public static boolean isPlayerGliding(Player player){
-        return ((LivingEntity)player).isGliding();
-    }
-
-    public static void setGlide(Player player){
-        EntityPlayer ep = ((CraftPlayer)player).getHandle();
-        ep.setFlag(7,true);
     }
 
     public static boolean isElytraWeared(Player player){

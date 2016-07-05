@@ -15,7 +15,7 @@ public class ElytraListener implements Listener{
         if (!Elytra.getCfg().constSpeedEnable) return;
         Player player = event.getPlayer();
         if (!player.hasPermission("elytra.const-flight")) return;
-        if (!Util.isPlayerGliding(player)) return;
+        if (!player.isGliding()) return;
         if (!Util.isElytraWeared (player)) return;
         Vector vector = player.getVelocity();
         if (vector.length()>Elytra.getCfg().isConstSpeed) return;
@@ -29,7 +29,7 @@ public class ElytraListener implements Listener{
         Player player = event.getPlayer();
         if (!player.hasPermission("elytra.shift-activation")) return;
         if (!player.isSneaking()) return;
-        if (!Util.isPlayerGliding(player)) return;
+        if (!player.isGliding()) return;
         if (!Util.isElytraWeared (player)) return;
         Vector vector = player.getVelocity();
         if (vector.length()>Elytra.getCfg().shiftActSpeed) return;
@@ -47,7 +47,7 @@ public class ElytraListener implements Listener{
         if (!Elytra.getCfg().boostEnable) return;
         Player player = event.getPlayer();
         if (!player.hasPermission("elytra.speedup")) return;
-        if (!Util.isPlayerGliding(player)) return;
+        if (!player.isGliding()) return;
         if (!Util.isElytraWeared (player)) return;
         Vector vector = player.getVelocity();
         if (!Util.isBoostAngle(event.getFrom().getPitch())) return;
@@ -67,9 +67,9 @@ public class ElytraListener implements Listener{
         Player player = event.getPlayer();
         if (!player.hasPermission("elytra.auto")) return;
         if (!Util.isElytraWeared (player)) return;
-        if (Util.isPlayerGliding(player)) return;
+        if (player.isGliding()) return;
         if (player.isFlying()) return;
         if (!Util.checkEmptyBlocks(event.getFrom(),event.getTo())) return;
-        Util.setGlide(player);
+        player.setGliding(true);
     }
 }
