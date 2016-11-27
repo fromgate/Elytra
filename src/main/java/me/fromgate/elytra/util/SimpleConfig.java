@@ -1,11 +1,9 @@
 package me.fromgate.elytra.util;
 
-import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -27,9 +25,9 @@ public abstract class SimpleConfig {
     public SimpleConfig(JavaPlugin plugin, String fileName) {
         this(new File(plugin.getDataFolder() + File.separator + fileName));
         try {
-            plugin.saveResource(fileName,false);
-        } catch (Exception e){
-            plugin.getLogger().info("Resource "+fileName+" was not found. Default value will be used.");
+            plugin.saveResource(fileName, false);
+        } catch (Exception e) {
+            plugin.getLogger().info("Resource " + fileName + " was not found. Default value will be used.");
         }
     }
 
