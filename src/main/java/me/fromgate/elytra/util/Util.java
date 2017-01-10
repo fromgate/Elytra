@@ -1,10 +1,14 @@
 package me.fromgate.elytra.util;
 
 import me.fromgate.elytra.Elytra;
+
+import java.util.List;
+
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 public class Util {
 
@@ -27,9 +31,6 @@ public class Util {
         return checkAngle(pitch, cfg.minAngle, cfg.maxAngle);
     }
 
-    /*
-      pitch < 0 = игрок смотрит вверх.
-     */
     public static boolean checkAngle(double pitch, int min, int max) {
         pitch = -pitch;
         if (min > (pitch)) return false;
@@ -117,6 +118,34 @@ public class Util {
         if (player.getInventory().getChestplate().getDurability() >= 431) return false;
         return true;
     }
+    
+    public static boolean hasElytraStorage(Player player) {
+    	PlayerInventory inv = player.getInventory();
+    	if(inv.getStorageContents()!=null){
+    		for(ItemStack item : inv.getStorageContents()){
+    			if(item!=null){
+    				if(!item.getType().equals(Material.AIR)){
+            			if(item.getType().equals(Material.ELYTRA)){
+            				if(item.getDurability() <= 431)
+            					return true;
+            			}
+            		}
+    			}     		
+        	}
+    	}
+    	return false;
+    }
+    
+    public static ItemStack[] listToArray(List<ItemStack> list){
+    	ItemStack[] array = new ItemStack[list.size()];
+    	int i = 0;
+    	for (ItemStack is : list){
+    	    array[i] = is;
+    	    i += 1;
+    	}
+    	return array;
+    }
+    
 
     public static boolean checkEmptyBlocks(Location from, Location to) {
         if (from.getBlockY() - to.getBlockY() < 1) return false;

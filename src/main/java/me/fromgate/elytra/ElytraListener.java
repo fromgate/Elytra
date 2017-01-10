@@ -1,11 +1,19 @@
 package me.fromgate.elytra;
 
 import me.fromgate.elytra.util.Util;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
 public class ElytraListener implements Listener {
@@ -22,7 +30,6 @@ public class ElytraListener implements Listener {
         player.setVelocity(vector.normalize().multiply(Elytra.getCfg().isConstSpeed));
     }
 
-    @SuppressWarnings("deprecation")
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onSpeedupShift(PlayerMoveEvent event) {
         if (!Elytra.getCfg().shiftActivation) return;
@@ -41,7 +48,6 @@ public class ElytraListener implements Listener {
     }
 
 
-    @SuppressWarnings("deprecation")
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
     public void onSpeedup(PlayerMoveEvent event) {
         if (!Elytra.getCfg().boostEnable) return;
@@ -66,10 +72,48 @@ public class ElytraListener implements Listener {
         if (!Elytra.getCfg().autoElytra) return;
         Player player = event.getPlayer();
         if (!player.hasPermission("elytra.auto")) return;
-        if (!Util.isElytraWeared(player)) return;
+        if (!Util.isElytraWeared(player)){
+        	if(!Elytra.getCfg().autoElytraEquip){
+        		return;
+        	}
+        	if(!player.hasPermission("elytra.auto-equip")){
+    			return;
+    		}
+        	if(!Util.hasElytraStorage(player)){
+        		return;
+        	}
+        }
         if (player.isGliding()) return;
         if (player.isFlying()) return;
         if (!Util.checkEmptyBlocks(event.getFrom(), event.getTo())) return;
+        if(!Util.isElytraWeared(player)){      	
+        	PlayerInventory inv = player.getInventory();
+        	List<ItemStack> storage = new ArrayList<ItemStack>();
+        	ItemStack chestplate = new ItemStack(Material.AIR);
+        	ItemStack elytra = new ItemStack(Material.AIR);       	
+        	if(inv.getChestplate()!=null && inv.getChestplate().getType()!=Material.AIR){
+    			chestplate = inv.getChestplate();
+    			inv.setChestplate(new ItemStack(Material.AIR));
+    		}
+        	for(ItemStack item : inv.getStorageContents()){
+        		storage.add(item);        		
+        	}
+        	for(ItemStack item : storage){
+        		if(item!=null){
+        			if(item.getType().equals(Material.ELYTRA)){
+            			elytra = item;
+            			break;
+            		}
+        		}   		
+        	}
+        	storage.remove(elytra);
+        	if(chestplate.getType()!=Material.AIR){
+        		storage.add(chestplate);
+        	}
+        	player.getInventory().setStorageContents(Util.listToArray(storage));
+        	inv.setChestplate(elytra);
+        	player.sendMessage(ChatColor.GREEN + "Elytra Auto-Equipped");
+        }      
         player.setGliding(true);
     }
 }

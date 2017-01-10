@@ -4,6 +4,7 @@
 #
 auto-glide:
   enable: true # Enable auto-glide feature
+  auto-equip: false # Enable auto-equip feature (If a player has an elytra in his inventory, it is auto-equipped when auto-glide engages)
   required-air-under-player: 3 # Amount of empty block under player feet required to start gliding
 
 # Constant flight

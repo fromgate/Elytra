@@ -12,11 +12,11 @@ public class Time {
 
     public static Long parseTime(String time) {
         if (time == null || time.isEmpty()) return 0L;
-        int hh = 0; // часы
-        int mm = 0; // минуты
-        int ss = 0; // секунды
-        int tt = 0; // тики
-        int ms = 0; // миллисекунды
+        int hh = 0; 
+        int mm = 0; 
+        int ss = 0; 
+        int tt = 0; 
+        int ms = 0; 
         if (isInteger(time)) {
             ss = Integer.parseInt(time);
         } else if (time.matches("^[0-5][0-9]:[0-5][0-9]$")) {
@@ -53,7 +53,7 @@ public class Time {
     }
 
     public static String timeHHMMSS(long time) {
-        long t = time / 1000; // перевели в секунды
+        long t = time / 1000;
         int sec = (int) t % 60;
         t = t / 60;
         int min = (int) t % 60;
@@ -64,7 +64,7 @@ public class Time {
     }
 
     public static String timeToString(long time) {
-        long t = time / 1000; // перевели в секунды
+        long t = time / 1000; 
         int sec = (int) t % 60;
         t = t / 60;
         int min = (int) t % 60;
