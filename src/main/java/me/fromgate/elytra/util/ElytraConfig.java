@@ -50,7 +50,7 @@ public class ElytraConfig extends SimpleConfig {
     public String cooldownTime = "3s";
 
     @Path(value = "speed-up.activation.angle-min")
-    public int minAngle = 50;
+    public int minAngle = 40;
 
     @Path(value = "speed-up.activation.angle-max")
     public int maxAngle = 80;
