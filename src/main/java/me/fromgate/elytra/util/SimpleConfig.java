@@ -25,7 +25,9 @@ public abstract class SimpleConfig {
     public SimpleConfig(JavaPlugin plugin, String fileName) {
         this(new File(plugin.getDataFolder() + File.separator + fileName));
         try {
-            plugin.saveResource(fileName, false);
+            if (!configFile.exists()) {
+                plugin.saveResource(fileName, false);
+            }
         } catch (Exception e) {
             plugin.getLogger().info("Resource " + fileName + " was not found. Default value will be used.");
         }

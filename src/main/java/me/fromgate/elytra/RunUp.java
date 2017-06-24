@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class RunUp implements Listener {
     private ElytraConfig cfg;
-    private Map<String, Integer> runners = new HashMap<String, Integer>();
+    private Map<String, Integer> runners = new HashMap<>();
 
     public RunUp() {
         this.cfg = Elytra.getCfg();
@@ -45,11 +45,7 @@ public class RunUp implements Listener {
         player.setVelocity(v);
         Util.playParticles(player);
         Util.playSound(player);
-        Bukkit.getScheduler().runTaskLater(Elytra.getPlugin(), new Runnable() {
-            public void run() {
-                player.setGliding(true);
-            }
-        }, 5);
+        Bukkit.getScheduler().runTaskLater(Elytra.getPlugin(), () -> player.setGliding(true), 5);
     }
 
     private boolean timeToJump(Player player) {

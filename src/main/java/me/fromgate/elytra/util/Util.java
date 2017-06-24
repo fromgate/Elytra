@@ -42,12 +42,9 @@ public class Util {
         player.getWorld().playSound(player.getLocation(), sound, cfg.soundVolume, cfg.soundPitch);
         if (cfg.soundRepeatCount <= 0) return;
         for (int i = 0; i < cfg.soundRepeatCount; i++)
-            Bukkit.getScheduler().runTaskLater(Elytra.getPlugin(), new Runnable() {
-                @SuppressWarnings("deprecation")
-                public void run() {
-                    if (player.isDead() || !player.isOnline() || player.isFlying() || player.isOnGround()) return;
-                    player.getWorld().playSound(player.getLocation(), sound, cfg.soundVolume, cfg.soundPitch);
-                }
+            Bukkit.getScheduler().runTaskLater(Elytra.getPlugin(), () -> {
+                if (player.isDead() || !player.isOnline() || player.isFlying() || player.isOnGround()) return;
+                player.getWorld().playSound(player.getLocation(), sound, cfg.soundVolume, cfg.soundPitch);
             }, i * cfg.soundDelay);
     }
 
@@ -63,11 +60,9 @@ public class Util {
         playParticle(player);
         if (cfg.particlesCount <= 0) return;
         for (int i = 1; i <= cfg.particlesCount; i++)
-            Bukkit.getScheduler().runTaskLater(Elytra.getPlugin(), new Runnable() {
-                public void run() {
-                    if (player.isDead() || !player.isOnline() || player.isFlying() || player.isOnGround()) return;
-                    playParticle(player);
-                }
+            Bukkit.getScheduler().runTaskLater(Elytra.getPlugin(), () -> {
+                if (player.isDead() || !player.isOnline() || player.isFlying() || player.isOnGround()) return;
+                playParticle(player);
             }, i);
     }
 
