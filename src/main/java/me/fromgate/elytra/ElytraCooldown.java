@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class ElytraCooldown {
 
-    private static Map<String, Long> cooldowns = new HashMap<String, Long>();
+    private static Map<String, Long> cooldowns = new HashMap<>();
 
     static void clearCoolDown(Player player, Type type) {
         if (type == null) {
