@@ -55,7 +55,6 @@ public class Util {
         player.getWorld().playSound(player.getLocation(), s, cfg.cooldownFailVolume, cfg.cooldownFailPitch);
     }
 
-    @SuppressWarnings("deprecation")
     public static void playParticles(final Player player) {
         if (!cfg.particles) return;
         playParticle(player);

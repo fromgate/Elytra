@@ -9,6 +9,7 @@ auto-glide:
 
 # Constant flight
 # Determines minimum glding speed, allows to flight constantly
+# Most CPU Intensive (0.03% of server tick per active gliding player)
 constant-flight:
   enable: false     # Enable constant flight feature
   velocity: 1.1     # Minimum velocity
@@ -38,6 +39,7 @@ speed-up:
 
 # Run-up
 # Allows to start flying just after sprinting with weared Elytra
+# Second Most CPU Intensive (0.03% of server tick per active sprinting player)
 run-up:
   enable: true      # Enable run-up
   activation:

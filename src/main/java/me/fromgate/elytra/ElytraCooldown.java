@@ -19,7 +19,7 @@ public class ElytraCooldown {
     }
 
 
-    static boolean checkAndUpdate(Player player, Type type) {
+    public static boolean checkAndUpdate(Player player, Type type) {
         if (!type.isEnabled()) return true;
         String name = player.getName() + "." + type.name();
         long time = cooldowns.containsKey(name) ? cooldowns.get(name) : 0;
@@ -32,12 +32,13 @@ public class ElytraCooldown {
         return true;
     }
 
-    enum Type {
+    public static enum Type {
         RUN_UP,
         SPEED_UP,
         SHIFT;
 
-        public boolean isEnabled() {
+        @SuppressWarnings("incomplete-switch")
+		public boolean isEnabled() {
             switch (this) {
                 case RUN_UP:
                     return Elytra.getCfg().runUpCooldown;
@@ -47,7 +48,8 @@ public class ElytraCooldown {
             return Elytra.getCfg().cooldownEnable; //SPEED_UP
         }
 
-        public long delay() {
+        @SuppressWarnings("incomplete-switch")
+		public long delay() {
             switch (this) {
                 case RUN_UP:
                     return Time.parseTime(Elytra.getCfg().runUpCooldownTime);
