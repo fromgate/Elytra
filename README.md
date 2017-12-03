@@ -2,7 +2,7 @@
 This is a very simple plugin for bukkit/spigot that allows you to fly-up using Elytras.
 
 ## Download
-* Project page on [BukkitDev]()https://dev.bukkit.org/bukkit-plugins/elytra/) and [SpigtoMC](https://www.spigotmc.org/resources/elytra.19284/)
+* Project page on [BukkitDev](https://dev.bukkit.org/bukkit-plugins/elytra/) and [SpigtoMC](https://www.spigotmc.org/resources/elytra.19284/)
 * [Latest Dev Build  ![CircleCI](https://circleci.com/gh/fromgate/Elytra.svg?style=shield)](https://circleci.com/gh/fromgate/Elytra)
 
 ## Features
