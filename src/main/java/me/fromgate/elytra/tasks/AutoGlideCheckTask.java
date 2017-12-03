@@ -1,9 +1,7 @@
 package me.fromgate.elytra.tasks;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
+import me.fromgate.elytra.Elytra;
+import me.fromgate.elytra.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -12,11 +10,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
-import me.fromgate.elytra.Elytra;
-import me.fromgate.elytra.util.Util;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class AutoGlideCheckTask extends BukkitRunnable {	
-	private HashMap<Player, Location> oldLocale = new HashMap<Player, Location>();	
+	private Map<Player, Location> oldLocale = new HashMap<>();
 	@Override
 	public void run() {
 		if(Bukkit.getServer().getOnlinePlayers()!=null && !Bukkit.getServer().getOnlinePlayers().isEmpty()){ 
