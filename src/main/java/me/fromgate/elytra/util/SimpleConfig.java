@@ -65,7 +65,8 @@ public abstract class SimpleConfig {
         return true;
     }
 
-    public boolean load() {
+    @SuppressWarnings("rawtypes")
+	public boolean load() {
         if (!this.configFile.exists()) return false;
         YamlConfiguration cfg = new YamlConfiguration();
         try {

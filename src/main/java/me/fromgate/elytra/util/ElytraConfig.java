@@ -12,7 +12,10 @@ public class ElytraConfig extends SimpleConfig {
     // Auto-glide    
     @Path(value = "auto-glide.enable")
     public boolean autoElytra = true;
-
+    
+    @Path(value = "auto-glide.auto-equip")
+    public boolean autoElytraEquip = false;
+    
     @Path(value = "auto-glide.required-air-under-player")
     public int autoElytraEmpty = 3;
 
@@ -150,7 +153,7 @@ public class ElytraConfig extends SimpleConfig {
         } catch (Exception e) {
             return;
         }
-        if (cfg.get("constant-flight.enable") == null) this.save();
+        if (cfg.get("constant-flight.enable") == null || cfg.get("auto-glide.auto-equip") == null) this.save();
     }
 
 }
