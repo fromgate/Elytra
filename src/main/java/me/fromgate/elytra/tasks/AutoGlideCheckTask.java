@@ -1,16 +1,9 @@
 package me.fromgate.elytra.tasks;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitRunnable;
 import me.fromgate.elytra.Elytra;
 import me.fromgate.elytra.util.Util;
@@ -32,9 +25,11 @@ public class AutoGlideCheckTask extends BukkitRunnable {
 										if(Elytra.getCfg().autoElytraEquip)
 										{
 											if(player.hasPermission("elytra.auto-equip")){
-												if(Util.hasElytraStorage(player)){
-													autoEquip(player);
-												}
+												if(Util.hasElytraStorage(player)) {
+													Util.autoEquip(player);
+												}else {
+													//no elytra to autoequip (maybe a message)
+												}											
 											}
 										}        	
 									}
@@ -56,32 +51,4 @@ public class AutoGlideCheckTask extends BukkitRunnable {
 		}
 	}
 	
-	private void autoEquip(Player player){
-		PlayerInventory inv = player.getInventory();
-		List<ItemStack> storage = new ArrayList<ItemStack>();
-		ItemStack chestplate = new ItemStack(Material.AIR);
-		ItemStack elytra = new ItemStack(Material.AIR);       	
-		if(inv.getChestplate()!=null && inv.getChestplate().getType()!=Material.AIR){
-			chestplate = inv.getChestplate();
-			inv.setChestplate(new ItemStack(Material.AIR));
-		}
-		for(ItemStack item : inv.getStorageContents()){
-			storage.add(item);        		
-		}
-		for(ItemStack item : storage){
-			if(item!=null){
-				if(item.getType().equals(Material.ELYTRA)){
-					elytra = item;
-					break;
-				}
-			}   		
-		}
-		storage.remove(elytra);
-		if(chestplate.getType()!=Material.AIR){
-			storage.add(chestplate);
-		}
-		player.getInventory().setStorageContents(Util.listToArray(storage));
-		inv.setChestplate(elytra);
-		player.sendMessage(ChatColor.GREEN + "Elytra Auto-Equipped");
-	}
 }
