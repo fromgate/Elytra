@@ -130,10 +130,10 @@ public class Util {
     
     public static boolean containsFireworks(Player player) {
     	if(player.getInventory().getContents()!=null){
-    		if(player.getInventory().contains(Material.FIREWORK)) {
+    		if(player.getInventory().contains(Material.FIREWORK_ROCKET)) {
     			for(ItemStack item : player.getInventory().getContents()){
         			if(item!=null && !item.getType().equals(Material.AIR)){
-                		if(item.getType().equals(Material.FIREWORK)){
+                		if(item.getType().equals(Material.FIREWORK_ROCKET)){
                 			if(item.getAmount()>=Elytra.getCfg().chargeFirework) {
                 	    		return true;
                 	    	}
@@ -150,7 +150,7 @@ public class Util {
     	for(ItemStack item : inv.getContents()){
         	if(item!=null){
         		if(!item.getType().equals(Material.AIR)){
-           			if(item.getType().equals(Material.FIREWORK)){
+           			if(item.getType().equals(Material.FIREWORK_ROCKET)){
            				if(item.getAmount()>=amount) {
            					inv.remove(item);
            					if(item.getAmount()-amount > 0) {

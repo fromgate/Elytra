@@ -14,14 +14,14 @@
 		</repository>
 		<repository>
         	<id>DrkMatr1984 Repo</id>
-        	<url>http://minevolt.net/repo</url>
+        	<url>https://minevolt.net/repo</url>
     	</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.12-R0.1-SNAPSHOT</version>
+			<version>1.14.4-R0.1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
