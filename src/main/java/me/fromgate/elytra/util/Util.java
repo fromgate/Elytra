@@ -2,8 +2,6 @@ package me.fromgate.elytra.util;
 
 import me.fromgate.elytra.Elytra;
 
-import java.util.List;
-
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
@@ -115,8 +113,8 @@ public class Util {
     
     public static boolean hasElytraStorage(Player player) {
     	PlayerInventory inv = player.getInventory();
-    	if(inv.getStorageContents()!=null){
-    		for(ItemStack item : inv.getStorageContents()){
+    	if(inv.getContents()!=null){
+    		for(ItemStack item : inv.getContents()){
     			if(item!=null){
     				if(!item.getType().equals(Material.AIR)){
             			if(item.getType().equals(Material.ELYTRA)){
@@ -130,17 +128,72 @@ public class Util {
     	return false;
     }
     
-    public static ItemStack[] listToArray(List<ItemStack> list){
-    	ItemStack[] array = new ItemStack[list.size()];
-    	int i = 0;
-    	for (ItemStack is : list){
-    	    array[i] = is;
-    	    i += 1;
-    	}
-    	return array;
+    public static boolean containsFireworks(Player player) {
+    	if(player.getInventory().getContents()!=null){
+    		if(player.getInventory().contains(Material.FIREWORK_ROCKET)) {
+    			for(ItemStack item : player.getInventory().getContents()){
+        			if(item!=null && !item.getType().equals(Material.AIR)){
+                		if(item.getType().equals(Material.FIREWORK_ROCKET)){
+                			if(item.getAmount()>=Elytra.getCfg().chargeFirework) {
+                	    		return true;
+                	    	}
+                		}
+        			}
+    			}
+    		}
+    	}  	
+		return false;  	
     }
     
-
+    public static void removeFirework(Player player, int amount) {
+    	PlayerInventory inv = player.getInventory();
+    	for(ItemStack item : inv.getContents()){
+        	if(item!=null){
+        		if(!item.getType().equals(Material.AIR)){
+           			if(item.getType().equals(Material.FIREWORK_ROCKET)){
+           				if(item.getAmount()>=amount) {
+           					inv.remove(item);
+           					if(item.getAmount()-amount > 0) {
+           						item.setAmount(item.getAmount()-amount);
+           						inv.addItem(item);
+           					}
+           					return;
+           				}
+           			}
+        		}
+        	}   		
+        }
+    }
+    
+    public static void autoEquip(Player player){
+		PlayerInventory inv = player.getInventory();
+		ItemStack chestplate = new ItemStack(Material.AIR);
+		ItemStack elytra = new ItemStack(Material.AIR);       	
+		if(inv.getChestplate()!=null && inv.getChestplate().getType()!=Material.AIR){
+			chestplate = inv.getChestplate();
+			inv.setChestplate(new ItemStack(Material.AIR));
+		}	
+		for(ItemStack item : inv.getContents()){
+			if(item!=null){
+				if(item.getType().equals(Material.ELYTRA)){
+					elytra = item;
+					break;
+				}
+			}   		
+		}
+		inv.remove(elytra);
+		if((elytra.getAmount()-1)>0) {
+			elytra.setAmount(elytra.getAmount() -1);
+			inv.addItem(elytra);
+		}
+		if(chestplate.getType()!=Material.AIR){
+			inv.addItem(chestplate);
+		}
+		elytra.setAmount(1);
+		inv.setChestplate(elytra);
+		player.sendMessage(ChatColor.GREEN + "Elytra Auto-Equipped");
+	}
+    
     public static boolean checkEmptyBlocks(Location from, Location to) {
         if (from.getBlockY() - to.getBlockY() < 1) return false;
         Block bf = from.getBlock();
@@ -158,6 +211,7 @@ public class Util {
         if (loc1.getBlockX() != loc2.getBlockX()) return false;
         if (loc1.getBlockZ() != loc2.getBlockZ()) return false;
         if (loc1.getBlockY() != loc2.getBlockY()) return false;
+        if (loc1.getWorld() != loc2.getWorld()) return false;
         return true;
     }
 }

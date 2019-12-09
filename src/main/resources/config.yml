@@ -55,6 +55,7 @@ run-up:
 g-force:
   damage-elytra: 10  # Break elytra
   damage-player: 2.0 # Deal damage to player
+  charge-firework: 2
 
 # Particles effects
 particles:

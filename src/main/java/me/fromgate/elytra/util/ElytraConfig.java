@@ -95,7 +95,9 @@ public class ElytraConfig extends SimpleConfig {
 
     @Path(value = "g-force.damage-player")
     public double gforceDamagePlayer = 2;
-
+    
+    @Path(value = "g-force.charge-firework")
+    public int chargeFirework = 1;
 
     // Visual effects
     @Path(value = "particles.enable")
