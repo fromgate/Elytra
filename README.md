@@ -1,22 +1,23 @@
-#Elytra
+# Elytra
 This is a very simple plugin for bukkit/spigot that allows you to fly-up using Elytras.
 
-##Download page
-https://dev.bukkit.org/bukkit-plugins/elytra/
+## Download
+* Project page on [BukkitDev](https://dev.bukkit.org/bukkit-plugins/elytra/) and [SpigtoMC](https://www.spigotmc.org/resources/elytra.19284/)
+* [Latest Dev Build  ![CircleCI](https://circleci.com/gh/fromgate/Elytra.svg?style=shield)](https://circleci.com/gh/fromgate/Elytra)
 
-##Features
+## Features
 * Auto-glide: Elytras activates automatically, like it was in snapshots!
 * Speed-up: When your speed is getting low, you can look up and you'll get a speed bost!
 * Hit player and break Elytra when getting speed boost
 * Play particles and sound effects when speed-up activating
 * All features could be configured or disabled in config. 
 
-##How to use?
+## How to use?
 * Install plugin
 * Equip with elytras and fly
 * When your speed is getting low - try to look up, your speed will be increased 
 
-##Permission
+## Permission
 * elytra.speedup — allows to speed-up while flying with elytras
 * elytra.auto — allows to use auto-glide feature (Automatically activate Elytra, like in snapshots)
 * elytra.const-flight — allows to use constant speed

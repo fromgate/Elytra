@@ -34,20 +34,16 @@ public class Elytra extends JavaPlugin {
             task.runTaskTimer(plugin, 20, 13);
         }
         if(cfg.boostEnable){
-        	BoostCheckTask task = new BoostCheckTask();
-        	task.runTaskTimer(getPlugin(), 20, 8);
+            new BoostCheckTask().runTaskTimer(getPlugin(), 20, 8);
         }
         if(cfg.shiftActivation){
-        	ShiftActivationCheckTask task = new ShiftActivationCheckTask();
-        	task.runTaskTimer(plugin, 20, 10);
+            new ShiftActivationCheckTask().runTaskTimer(plugin, 20, 10);
         }
         if(cfg.autoElytra){
-        	AutoGlideCheckTask task = new AutoGlideCheckTask();
-        	task.runTaskTimer(plugin, 20, 8);
+            new AutoGlideCheckTask().runTaskTimer(plugin, 20, 8);
         }
         if (cfg.runUpEnable){
-        	RunUpCheckTask task = new RunUpCheckTask();
-        	task.runTaskTimer(plugin, 20, 6);
+            new RunUpCheckTask().runTaskTimer(plugin, 20, 6);
         }       
     }
 }
