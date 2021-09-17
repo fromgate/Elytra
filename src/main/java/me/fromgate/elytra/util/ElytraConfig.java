@@ -18,7 +18,10 @@ public class ElytraConfig extends SimpleConfig {
     
     @Path(value = "auto-glide.required-air-under-player")
     public int autoElytraEmpty = 3;
-
+    
+    @Path(value = "auto-glide.cancel-if-slow-fall")
+    public boolean  cancelIfSlowFall = true;
+    
     // Constant-flight 
     @Path(value = "constant-flight.enable")
     public boolean constSpeedEnable = false;

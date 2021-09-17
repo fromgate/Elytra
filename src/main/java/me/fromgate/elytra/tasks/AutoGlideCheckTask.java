@@ -1,20 +1,16 @@
 package me.fromgate.elytra.tasks;
 
 import java.util.HashMap;
-import me.fromgate.elytra.Elytra;
-import me.fromgate.elytra.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import me.fromgate.elytra.Elytra;
+import me.fromgate.elytra.util.Util;
 
 public class AutoGlideCheckTask extends BukkitRunnable {	
-	private Map<Player, Location> oldLocale = new HashMap<>();
+	private HashMap<Player, Location> oldLocale = new HashMap<Player, Location>();	
 	@Override
 	public void run() {
 		if(Bukkit.getServer().getOnlinePlayers()!=null && !Bukkit.getServer().getOnlinePlayers().isEmpty()){ 
@@ -22,6 +18,8 @@ public class AutoGlideCheckTask extends BukkitRunnable {
 			{
 				if (player.hasPermission("elytra.auto")){
 					if(!player.hasMetadata("swimming") && !player.hasMetadata("falling")){
+						if(Elytra.getCfg().cancelIfSlowFall && player.hasPotionEffect(PotionEffectType.SLOW_FALLING))
+							return;
 						Location l = player.getLocation();
 						if(oldLocale.containsKey(player)){
 							if(!Util.isSameBlocks(l, oldLocale.get(player))){
