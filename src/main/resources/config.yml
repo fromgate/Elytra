@@ -6,6 +6,7 @@ auto-glide:
   enable: true # Enable auto-glide feature
   auto-equip: false # Enable auto-equip feature (If a player has an elytra in his inventory, it is auto-equipped when auto-glide engages)
   required-air-under-player: 3 # Amount of empty block under player feet required to start gliding
+  cancel-if-slow-fall: true # Cancels AutoGlide and AutoEquip if player have a slow fall potion activated.
 
 # Constant flight
 # Determines minimum glding speed, allows to flight constantly
@@ -55,6 +56,7 @@ run-up:
 g-force:
   damage-elytra: 10  # Break elytra
   damage-player: 2.0 # Deal damage to player
+  charge-firework: 2
 
 # Particles effects
 particles:
